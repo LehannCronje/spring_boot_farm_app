@@ -16,5 +16,5 @@ public interface EmployeeService {
 
     public void deleteEmployee(Long empId);
 
-    public List<Employee> findEmployeesByFarmId(Long FarmId);
+    // public List<Employee> findEmployeesByFarmId(Long FarmId);
 }

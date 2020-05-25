@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.farmapp.Domain.EmployeeDomain;
 import com.example.farmapp.Service.EmployeeService;
+import com.example.farmapp.dto.EmployeeReqDTO;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -25,9 +26,9 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @PostMapping(value = "/")
-    public void addEmployee(@RequestBody EmployeeDomain employeeData) {
+    public void addEmployee(@RequestBody EmployeeReqDTO employeeReqDTO) {
     	
-        employeeService.createEmployee(employeeData);
+        employeeService.createEmployee(employeeReqDTO);
     }
 
     @GetMapping(value = "/{farmId}")

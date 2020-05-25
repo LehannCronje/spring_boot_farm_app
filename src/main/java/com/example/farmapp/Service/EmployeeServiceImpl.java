@@ -53,7 +53,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employee.setName(employeeReqDTO.getName());
         employee.setEmail(employeeReqDTO.getEmail());
-        this.insertEmployee(employee)
+        this.insertEmployee(employee);
 
         farmEmployee.setEmployee(employee);
         farmEmployee.setFarm(farm);
@@ -88,4 +88,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepo.save(employee);
         return "Success";
     }
+
+    // @Override
+    // public List<Employee> findEmployeesByFarmId(Long FarmId) {
+
+    //     return ;
+
+    // }
 }

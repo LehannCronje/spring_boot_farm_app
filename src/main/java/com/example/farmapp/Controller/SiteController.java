@@ -37,13 +37,13 @@ public class SiteController {
     }
 
     @GetMapping(value = "/{id}")
-    public Set<Map<String, String>> getMethodName(@PathVariable Long id) {
+    public Set<Map<String, String>> getAllSites(@PathVariable Long id) {
         return siteService.getAllSites(id);
     }
 
     @GetMapping(value = "site/{siteId}")
     public Site getSite(@PathVariable Long siteId) {
-    	return siteService.getSite(siteId);
+    	return siteService.findSiteById(siteId);
     }
     
     @PostMapping(value = "/update")
