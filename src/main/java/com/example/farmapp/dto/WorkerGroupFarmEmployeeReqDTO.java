@@ -6,7 +6,9 @@ import lombok.Data;
 public class WorkerGroupFarmEmployeeReqDTO {
 
 	private Long employeeId;
-	
+
+	private Long employeeRoleId;
+
 	private Long workerGroupId;
-	
+
 }

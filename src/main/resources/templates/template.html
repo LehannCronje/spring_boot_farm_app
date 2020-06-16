@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+  <head>
+    <link rel="stylesheet" type="text/css" media="all" href="style.css" />
+  </head>
+  <body>
+    <div id="header">
+      <div class="header-title">
+        [[${data.reportName}]]
+      </div>
+    </div>
+    <h1 class="top-header">
+      <span class="left">Name: [[${data.reportName}]]</span
+      ><span class="right">Status Date: [[${data.date}]]</span>
+    </h1>
+    <table>
+      <thead>
+        <tr class="table-head">
+          <th class="col-id">ID</th>
+          <th class="col-name">Name</th>
+          <th class="col-surname">Surname</th>
+          <th class="col-hours">Hours</th>
+          <th class="col-hout-type">Hour Type</th>
+          <th class="col-tarif">Tarif</th>
+          <th class="col-total">Total</th>
+        </tr>
+      </thead>
+      <th:block th:each="log: ${data.logs}">
+        <tr>
+          <td>[[${log.id}]]</td>
+          <td>[[${log.employeeName}]]</td>
+          <td>[[${log.employeeSurname}]]</td>
+          <td>[[${log.hours}]]</td>
+          <td>[[${log.hourType}]]</td>
+          <td>[[${log.tarif}]]</td>
+          <td>R[[${log.total}]]</td>
+        </tr>
+      </th:block>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>R[[${data.total}]]</td>
+      </tr>
+    </table>
+  </body>
+</html>

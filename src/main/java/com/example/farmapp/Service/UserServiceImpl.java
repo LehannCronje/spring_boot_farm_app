@@ -2,8 +2,8 @@ package com.example.farmapp.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.example.farmapp.Entity.ApplicationRole;
@@ -98,6 +98,12 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return userResList;
+	}
+
+	@Override
+	public Optional<User> findUserByUsername(String username) {
+
+		return userRepo.findByUsername(username);
 	}
 
 }

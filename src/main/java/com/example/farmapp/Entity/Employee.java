@@ -28,18 +28,22 @@ public class Employee {
 
     private String name;
 
+    private String surname;
+
     private String email;
+
+    private int workedHours;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
     private Set<FarmEmployee> farmEmployees;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="employee")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
     private Set<TxnWorkLog> txnWorkLog;
-    
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy ="employee")
-//    private Set<UserEmployee> userEmployee;
-    
+
+    // @OneToMany(cascade = CascadeType.ALL, mappedBy ="employee")
+    // private Set<UserEmployee> userEmployee;
+
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     private User user;

@@ -7,6 +7,8 @@ import com.example.farmapp.Entity.WorkerGroupFarmEmployee;
 public interface WorkerGroupFarmEmployeeService {
 
 	public void insertWorkerGroupFarmEmployee(WorkerGroupFarmEmployee workerGroupFarmEmployee);
-	
+
 	public Optional<WorkerGroupFarmEmployee> findWorkerGroupFarmEmployeeById(Long workerGroupFarmEmployeeId);
+
+	public Optional<WorkerGroupFarmEmployee> findWorkerGroupFarmEmployeeByFarmEmployeeId(Long farmEmployeeId);
 }

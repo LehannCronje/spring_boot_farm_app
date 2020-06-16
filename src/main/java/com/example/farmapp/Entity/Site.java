@@ -16,21 +16,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Site {
 
 	@Id
 	@GeneratedValue
 	private Long Id;
 
-	
 	private String name;
-
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "site")
 	@JsonIgnore

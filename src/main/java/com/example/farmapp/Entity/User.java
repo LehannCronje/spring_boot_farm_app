@@ -29,40 +29,45 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User implements UserDetails{
+public class User implements UserDetails {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    @Column(unique = true)
+	@Column(unique = true)
 	@NotEmpty
 	private String username;
 
 	@NotEmpty
 	private String password;
 
-    @OneToMany(fetch= FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<UserApplicationRole> userApplicationRoles = new HashSet<UserApplicationRole>();
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdByUser")
-    private Set<SubUserRegistry> subUsers = new HashSet<SubUserRegistry>();
-    
-    @OneToOne(mappedBy= "user", cascade = CascadeType.ALL)
-    private Employee employee;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+	private Set<UserApplicationRole> userApplicationRoles = new HashSet<UserApplicationRole>();
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "createdByUser")
+	private Set<SubUserRegistry> subUsers = new HashSet<SubUserRegistry>();
+
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private Employee employee;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private Set<Report> reports;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<ApplicationRole> appRoles = this.userApplicationRoles.stream().map(UserApplicationRole::getApplicationRole).collect(toList());
+		List<ApplicationRole> appRoles = this.userApplicationRoles.stream().map(UserApplicationRole::getApplicationRole)
+				.collect(toList());
 		List<String> roles = appRoles.stream().map(ApplicationRole::getRole).collect(toList());
 		return roles.stream().map(SimpleGrantedAuthority::new).collect(toList());
 	}
 
-	public List<String> getRoles(){
-		List<ApplicationRole> appRoles = this.userApplicationRoles.stream().map(UserApplicationRole::getApplicationRole).collect(toList());
+	public List<String> getRoles() {
+		List<ApplicationRole> appRoles = this.userApplicationRoles.stream().map(UserApplicationRole::getApplicationRole)
+				.collect(toList());
 		return appRoles.stream().map(ApplicationRole::getRole).collect(toList());
 	}
-	
+
 	@Override
 	public String getPassword() {
 		return this.password;
@@ -96,6 +101,5 @@ public class User implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
-    
 
 }

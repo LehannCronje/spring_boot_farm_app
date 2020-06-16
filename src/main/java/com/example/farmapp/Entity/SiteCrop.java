@@ -10,8 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.Where;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,11 +25,12 @@ public class SiteCrop {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private FarmSite farmSite;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
+	@Where(clause = "name != 'UNNASIGNED-TEMP'")
 	private Crop crop;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "siteCrop")

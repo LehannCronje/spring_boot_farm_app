@@ -10,9 +10,15 @@ import java.util.Map;
 import java.util.Set;
 
 import com.example.farmapp.Entity.ApplicationRole;
+import com.example.farmapp.Entity.EmployeeRole;
+import com.example.farmapp.Entity.EmployeeType;
+import com.example.farmapp.Entity.HourType;
 import com.example.farmapp.Entity.User;
 import com.example.farmapp.Entity.UserApplicationRole;
 import com.example.farmapp.Repository.ApplicationRoleRepository;
+import com.example.farmapp.Repository.EmployeeRoleRepository;
+import com.example.farmapp.Repository.EmployeeTypeRepository;
+import com.example.farmapp.Repository.HourTypeRepository;
 import com.example.farmapp.Repository.UserApplicationRoleRepository;
 import com.example.farmapp.Repository.UserRepository;
 import com.example.farmapp.Service.UserService;
@@ -39,7 +45,13 @@ public class UserController {
 	private ApplicationRoleRepository appRoleRepo;
 
 	@Autowired
-	private UserApplicationRoleRepository uAppRoleRepo;
+	private EmployeeTypeRepository empTypeRepo;
+
+	@Autowired
+	private EmployeeRoleRepository empRoleRepo;
+
+	@Autowired
+	private HourTypeRepository hourTypeRepo;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -95,6 +107,50 @@ public class UserController {
 	@GetMapping("/user-registry")
 	public List<UserResDTO> getUserRegistries(@AuthenticationPrincipal UserDetails userDetials) {
 		return userService.getUserRegistries(userDetials.getUsername());
+	}
+
+	@GetMapping("/bootstrap")
+	public void bootstrapdb() {
+		this.createAppRoles();
+		this.createUser();
+
+		EmployeeType owner = new EmployeeType();
+		EmployeeType worker = new EmployeeType();
+		EmployeeType manager = new EmployeeType();
+
+		owner.setName("OWNER");
+		worker.setName("WORKER");
+		manager.setName("MANAGER");
+
+		empTypeRepo.save(owner);
+		empTypeRepo.save(worker);
+		empTypeRepo.save(manager);
+
+		EmployeeRole leader = new EmployeeRole();
+		EmployeeRole member = new EmployeeRole();
+
+		leader.setName("LEADER");
+		member.setName("MEMBER");
+
+		empRoleRepo.save(leader);
+		empRoleRepo.save(member);
+
+		HourType normal = new HourType();
+		HourType overtime = new HourType();
+		HourType special = new HourType();
+
+		normal.setHourlyRate(Double.valueOf("" + 1));
+		normal.setName("NORMAL");
+
+		overtime.setHourlyRate(1.5);
+		overtime.setName("OVERTIME");
+
+		special.setHourlyRate(Double.valueOf("" + 2));
+		special.setName("SPECIAL");
+		hourTypeRepo.save(normal);
+		hourTypeRepo.save(overtime);
+		hourTypeRepo.save(special);
+
 	}
 }
 

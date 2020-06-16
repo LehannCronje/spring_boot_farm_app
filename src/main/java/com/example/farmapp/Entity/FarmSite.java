@@ -11,11 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Where;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import org.hibernate.annotations.Where;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,9 +35,8 @@ public class FarmSite {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Where(clause = "name != 'UNNASIGNED-TEMP'")
 	private Site site;
-	
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="farmSite")
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "farmSite")
 	@JsonIgnore
 	private Set<SiteCrop> siteCrop = new HashSet<SiteCrop>();
 }

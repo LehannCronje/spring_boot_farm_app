@@ -3,6 +3,7 @@ package com.example.farmapp.Service;
 import java.util.Map;
 import java.util.Set;
 
+import com.example.farmapp.Entity.Employee;
 import com.example.farmapp.dto.EmployeeReqDTO;
 
 /**
@@ -16,5 +17,6 @@ public interface EmployeeService {
 
     public void deleteEmployee(Long empId);
 
+    public String insertEmployee(Employee employee);
     // public List<Employee> findEmployeesByFarmId(Long FarmId);
 }

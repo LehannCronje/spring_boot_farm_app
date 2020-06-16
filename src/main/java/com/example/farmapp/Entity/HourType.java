@@ -19,12 +19,12 @@ public class HourType {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private String name;
-	
-	private Long hourlyRate;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="hourType")
-    private Set<TxnWorkLog> txnWorkLog;
-	
+
+	private Double hourlyRate;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "hourType")
+	private Set<TxnWorkLog> txnWorkLog;
+
 }

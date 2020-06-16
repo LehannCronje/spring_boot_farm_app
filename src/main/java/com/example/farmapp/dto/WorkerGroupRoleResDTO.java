@@ -9,7 +9,9 @@ import lombok.Data;
 public class WorkerGroupRoleResDTO {
 
 	private Long id;
-	
+
+	private String name;
+
 	List<WorkerGroupFarmEmployeeResDTO> workerGroupfarmEmployeesResDTO = new ArrayList<WorkerGroupFarmEmployeeResDTO>();
-	
+
 }

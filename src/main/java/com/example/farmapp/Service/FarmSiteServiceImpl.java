@@ -1,5 +1,7 @@
 package com.example.farmapp.Service;
 
+import java.util.Optional;
+
 import com.example.farmapp.Entity.FarmSite;
 import com.example.farmapp.Repository.FarmSiteRepository;
 
@@ -22,6 +24,16 @@ public class FarmSiteServiceImpl implements FarmSiteService {
             e.printStackTrace();
             return "failure";
         }
+    }
+
+    @Override
+    public Optional<FarmSite> findFarmSiteByFarmIdAndSiteId(Long farmId, Long siteId) {
+        return farmSiteRepo.findByFarmIdAndSiteId(farmId, siteId);
+    }
+
+    @Override
+    public Optional<FarmSite> findFarmSiteById(Long farmSiteId) {
+        return farmSiteRepo.findById(farmSiteId);
     }
 
 }

@@ -17,12 +17,12 @@ public class WorkerGroupRoleController {
 
 	@Autowired
 	private WorkerGroupRoleService workerGroupRoleService;
-	
-	@GetMapping(value="/{workerGroupId}")
-	public List<WorkerGroupRole> getWorkerGroupRolesByWorkerGroupId(@PathVariable("workerGroupId") Long workerGroupId){
-		
-		return workerGroupRoleService.getWorkerGroupRoleByWorkerGroupId(workerGroupId);
-		
+
+	@GetMapping(value = "/{workerGroupId}")
+	public List<WorkerGroupRole> getWorkerGroupRolesByWorkerGroupId(@PathVariable("workerGroupId") Long workerGroupId) {
+
+		return workerGroupRoleService.getWorkerGroupRolesById(workerGroupId);
+
 	}
-	
+
 }

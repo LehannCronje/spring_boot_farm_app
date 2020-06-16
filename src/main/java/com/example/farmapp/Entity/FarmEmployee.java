@@ -27,16 +27,16 @@ public class FarmEmployee {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Farm farm;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee employee;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private EmployeeType employeeType;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "farmEmployee")
 	private Set<WorkerGroupFarmEmployee> workerGroupFarmEmployee;
 }

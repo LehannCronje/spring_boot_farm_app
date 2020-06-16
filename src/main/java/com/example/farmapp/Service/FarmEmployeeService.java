@@ -10,4 +10,6 @@ public interface FarmEmployeeService {
 
 	public String insertFarmEmployee(FarmEmployee farmEmployee);
 
+	public FarmEmployee findFarmEmployeeByFarmIdAndUsername(Long farmId, String username);
+
 }

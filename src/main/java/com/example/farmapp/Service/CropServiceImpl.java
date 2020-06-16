@@ -2,6 +2,7 @@ package com.example.farmapp.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.example.farmapp.Entity.Crop;
@@ -38,8 +39,7 @@ public class CropServiceImpl implements CropService {
 	public String createCrop(CropReqDTO cropReqDTO) {
 
 		Farm farm = farmService.findFarmById(cropReqDTO.getFarmId()).get();
-		Site site = siteService.findSiteByName("UNNASIGNED-TEMP").get();
-		FarmSite farmSite = new FarmSite();
+		Site site = siteService.findSiteByName("UNNASIGNED-TEMP").orElse(null);
 		Crop crop = new Crop();
 		SiteCrop siteCrop = new SiteCrop();
 
@@ -49,10 +49,15 @@ public class CropServiceImpl implements CropService {
 			siteService.insertSite(site);
 		}
 
-		farmSite.setFarm(farm);
-		farmSite.setSite(site);
+		FarmSite farmSite = farmSiteService.findFarmSiteByFarmIdAndSiteId(farm.getId(), site.getId()).orElse(null);
+		System.out.println(farmSite);
 
-		farmSiteService.insertFarmSite(farmSite);
+		if (farmSite == null) {
+			farmSite = new FarmSite();
+			farmSite.setFarm(farm);
+			farmSite.setSite(site);
+			farmSiteService.insertFarmSite(farmSite);
+		}
 
 		crop.setName(cropReqDTO.getCropName());
 		this.insertCrop(crop);
@@ -65,12 +70,16 @@ public class CropServiceImpl implements CropService {
 	}
 
 	public List<CropResDTO> getCrops(Long farmId) {
-
-		return this.findCropsByFarmId(farmId).stream().map(crop -> {
-			CropResDTO cropResDTO = new CropResDTO();
-			BeanUtils.copyProperties(crop, cropResDTO);
-			return cropResDTO;
-		}).collect(Collectors.toList());
+		// fix nullpointer
+		try {
+			return this.findCropsByFarmId(farmId).stream().map(crop -> {
+				CropResDTO cropResDTO = new CropResDTO();
+				BeanUtils.copyProperties(crop, cropResDTO);
+				return cropResDTO;
+			}).collect(Collectors.toList());
+		} catch (Exception e) {
+			return new ArrayList<CropResDTO>();
+		}
 	}
 
 	// crud operations
@@ -85,16 +94,29 @@ public class CropServiceImpl implements CropService {
 	}
 
 	public List<Crop> findCropsByFarmId(Long farmId) {
+		// fix nullpointer
 		try {
 			Farm farm = farmService.findFarmById(farmId).get();
-			return farm.getFarmSite().stream().flatMap(farmSite -> farmSite.getSiteCrop().stream())
-					.filter(siteCrop -> !("UNNASIGNED-TEMP").equals(siteCrop.getCrop().getName()))
-					.map(SiteCrop::getCrop).collect(Collectors.toList());
+			Site site = siteService.findSiteByName("UNNASIGNED-TEMP").orElse(null);
+			FarmSite farmSite = farmSiteService.findFarmSiteByFarmIdAndSiteId(farm.getId(), site.getId()).orElse(null);
+			if (farmSite == null) {
+				return new ArrayList<Crop>();
+			} else {
+				return farmSite.getSiteCrop().stream().map(SiteCrop::getCrop)
+						.filter(crop -> !("UNNASIGNED-TEMP").equals(crop.getName())).collect(Collectors.toList());
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<Crop>();
 		}
 
+	}
+
+	@Override
+	public Optional<Crop> findCropById(Long cropId) {
+
+		return cropRepo.findById(cropId);
 	}
 
 }

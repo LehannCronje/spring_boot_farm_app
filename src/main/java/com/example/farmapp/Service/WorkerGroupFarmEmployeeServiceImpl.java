@@ -9,24 +9,29 @@ import com.example.farmapp.Entity.WorkerGroupFarmEmployee;
 import com.example.farmapp.Repository.WorkerGroupFarmEmployeeRepository;
 
 @Service
-public class WorkerGroupFarmEmployeeServiceImpl implements WorkerGroupFarmEmployeeService{
+public class WorkerGroupFarmEmployeeServiceImpl implements WorkerGroupFarmEmployeeService {
 
 	@Autowired
 	private WorkerGroupFarmEmployeeRepository workerGroupFarmEmpRepo;
-	
+
 	@Override
 	public void insertWorkerGroupFarmEmployee(WorkerGroupFarmEmployee workerGroupFarmEmployee) {
-		
+
 		workerGroupFarmEmpRepo.save(workerGroupFarmEmployee);
-		
+
 	}
 
 	@Override
 	public Optional<WorkerGroupFarmEmployee> findWorkerGroupFarmEmployeeById(Long workerGroupFarmEmployeeId) {
-		
+
 		return workerGroupFarmEmpRepo.findById(workerGroupFarmEmployeeId);
-		
+
 	}
-	
+
+	@Override
+	public Optional<WorkerGroupFarmEmployee> findWorkerGroupFarmEmployeeByFarmEmployeeId(Long farmEmployeeId) {
+
+		return workerGroupFarmEmpRepo.findByFarmEmployeeId(farmEmployeeId);
+	}
 
 }

@@ -5,11 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.farmapp.Entity.Employee;
+import com.example.farmapp.Entity.EmployeeRole;
 import com.example.farmapp.Entity.Farm;
 import com.example.farmapp.Entity.FarmEmployee;
 import com.example.farmapp.Entity.WorkerGroup;
@@ -19,10 +16,12 @@ import com.example.farmapp.Repository.WorkerGroupRepository;
 import com.example.farmapp.dto.EmployeeResDTO;
 import com.example.farmapp.dto.FarmEmployeeReqDTO;
 import com.example.farmapp.dto.WorkerGroupFarmEmployeeReqDTO;
-import com.example.farmapp.dto.WorkerGroupFarmEmployeeResDTO;
 import com.example.farmapp.dto.WorkerGroupReqDTO;
 import com.example.farmapp.dto.WorkerGroupResDTO;
-import com.example.farmapp.dto.WorkerGroupRoleResDTO;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class WorkerGroupServiceImpl implements WorkerGroupService {
@@ -108,8 +107,7 @@ public class WorkerGroupServiceImpl implements WorkerGroupService {
 		Employee employee = new Employee();
 		EmployeeResDTO empResDTO = new EmployeeResDTO();
 
-		for (WorkerGroupRole workerGroupRole : workerGroupRoleService
-				.getWorkerGroupRoleByWorkerGroupId(workerGroupId)) {
+		for (WorkerGroupRole workerGroupRole : workerGroupRoleService.getWorkerGroupRolesById(workerGroupId)) {
 			for (WorkerGroupFarmEmployee workerGroupFarmEmployee : workerGroupRole.getWorkerGroupFarmEmployees()) {
 				employee = workerGroupFarmEmployee.getFarmEmployee().getEmployee();
 				empResDTO = new EmployeeResDTO();
@@ -129,17 +127,19 @@ public class WorkerGroupServiceImpl implements WorkerGroupService {
 	}
 
 	@Override
-	public void addWorkerGroupEmployee(WorkerGroupFarmEmployeeReqDTO workerGroupFarmEmployeeDTO) {
+	public void addWorkerGroupEmployee(WorkerGroupFarmEmployeeReqDTO workerGroupFarmEmployeeReqDTO) {
 
 		WorkerGroupFarmEmployee workerGroupFarmEmployee = new WorkerGroupFarmEmployee();
 		WorkerGroupRole workerGroupRole = new WorkerGroupRole();
-		FarmEmployee farmEmployee = farmEmployeeService.findFarmEmployeeById(workerGroupFarmEmployeeDTO.getEmployeeId())
+		FarmEmployee farmEmployee = farmEmployeeService
+				.findFarmEmployeeById(workerGroupFarmEmployeeReqDTO.getEmployeeId()).get();
+		EmployeeRole employeeRole = employeeRoleService.findById(workerGroupFarmEmployeeReqDTO.getEmployeeRoleId())
 				.get();
 
 		for (WorkerGroupRole workerGroupRoleItr : workerGroupRoleService
-				.getWorkerGroupRoleByWorkerGroupId(workerGroupFarmEmployeeDTO.getWorkerGroupId())) {
+				.getWorkerGroupRolesById(workerGroupFarmEmployeeReqDTO.getWorkerGroupId())) {
 
-			if (workerGroupRoleItr.getEmployeeRole().getName().equals("MEMBER")) {
+			if (workerGroupRoleItr.getEmployeeRole().getName().equals(employeeRole.getName())) {
 				workerGroupRole = workerGroupRoleItr;
 			}
 		}
@@ -148,6 +148,48 @@ public class WorkerGroupServiceImpl implements WorkerGroupService {
 		workerGroupFarmEmployee.setFarmEmployee(farmEmployee);
 
 		workerGroupFarmEmployeeService.insertWorkerGroupFarmEmployee(workerGroupFarmEmployee);
+	}
+
+	@Override
+	public WorkerGroupResDTO findWorkerGroupByFarmEmpId(Long farmEmpId) {
+
+		WorkerGroupFarmEmployee workerGroupFarmEmployee = workerGroupFarmEmployeeService
+				.findWorkerGroupFarmEmployeeByFarmEmployeeId(farmEmpId).get();
+
+		WorkerGroup workerGroup = workerGroupFarmEmployee.getWorkerGroupRole().getWorkerGroup();
+		WorkerGroupResDTO workerGroupResDTO = new WorkerGroupResDTO();
+
+		BeanUtils.copyProperties(workerGroup, workerGroupResDTO);
+
+		return workerGroupResDTO;
+	}
+
+	@Override
+	public List<EmployeeResDTO> getEmployeeByWorkerGroupIdFilterByMembers(Long workerGroupId) {
+
+		List<EmployeeResDTO> farmEmployees = new ArrayList<EmployeeResDTO>();
+		Employee employee = new Employee();
+		EmployeeResDTO empResDTO = new EmployeeResDTO();
+
+		for (WorkerGroupRole workerGroupRole : workerGroupRoleService.getWorkerGroupRolesById(workerGroupId)) {
+			for (WorkerGroupFarmEmployee workerGroupFarmEmployee : workerGroupRole.getWorkerGroupFarmEmployees()) {
+				if (workerGroupFarmEmployee.getWorkerGroupRole().getEmployeeRole().getName().equals("MEMBER")) {
+					employee = workerGroupFarmEmployee.getFarmEmployee().getEmployee();
+					empResDTO = new EmployeeResDTO();
+					empResDTO.setId(workerGroupFarmEmployee.getFarmEmployee().getId());
+					empResDTO.setName(employee.getName());
+					if (employee.getUser() == null) {
+						empResDTO.setHasUser(false);
+					} else {
+						empResDTO.setHasUser(true);
+					}
+					empResDTO.setRole(workerGroupRole.getEmployeeRole().getName());
+					farmEmployees.add(empResDTO);
+				}
+			}
+		}
+
+		return farmEmployees;
 	}
 
 }

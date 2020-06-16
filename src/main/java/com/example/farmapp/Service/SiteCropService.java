@@ -1,5 +1,6 @@
 package com.example.farmapp.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 import com.example.farmapp.Entity.Crop;
@@ -11,4 +12,7 @@ public interface SiteCropService {
 
 	public String insertSiteCrop(SiteCrop siteCrop);
 
+	public Optional<SiteCrop> findSiteCropById(Long siteCropId);
+
+	public Optional<SiteCrop> findByFarmSiteIdAndCropId(Long farmSiteId, Long cropId);
 }
