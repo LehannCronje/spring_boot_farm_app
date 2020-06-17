@@ -1,10 +1,11 @@
 package com.example.farmapp.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 public class TxnWorkLogResDTO {
-
+    
     private Long id;
 
     private String employeeName;

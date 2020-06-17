@@ -128,7 +128,7 @@ public class TxnWorkLogServiceImpl implements TxnWorkLogService {
                 .flatMap(cropWork -> cropWork.getTxnWorkLog().stream()).map(txnWorkLog -> {
                     TxnWorkLogResDTO txnDTO = new TxnWorkLogResDTO();
                     int timeInMin = txnWorkLog.getTotalHours();
-                    txnDTO.setId(txnWorkLog.getId());
+                    txnDTO.setId(txnWorkLog.getId()); //builder
                     txnDTO.setEmployeeName(txnWorkLog.getEmployee().getName());
                     txnDTO.setWork(txnWorkLog.getCropWork().getWork().getName());
                     txnDTO.setTimeWorked("" + timeInMin / 60 + "h" + " " + timeInMin % 60 + "min");
