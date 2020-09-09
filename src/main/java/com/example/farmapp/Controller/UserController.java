@@ -19,7 +19,6 @@ import com.example.farmapp.Repository.ApplicationRoleRepository;
 import com.example.farmapp.Repository.EmployeeRoleRepository;
 import com.example.farmapp.Repository.EmployeeTypeRepository;
 import com.example.farmapp.Repository.HourTypeRepository;
-import com.example.farmapp.Repository.UserApplicationRoleRepository;
 import com.example.farmapp.Repository.UserRepository;
 import com.example.farmapp.Service.UserService;
 import com.example.farmapp.dto.UserResDTO;
@@ -30,7 +29,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -71,6 +73,17 @@ public class UserController {
 			e.printStackTrace();
 		}
 		return ok(model);
+	}
+
+	@DeleteMapping("/{userId}")
+	public void deleteUser(@AuthenticationPrincipal UserDetails userDetails, @PathVariable("userId") Long userId) {
+		userService.deleteUserByUserId(userDetails.getUsername(), userId);
+	}
+
+	@PostMapping("/enable/{farmEmpId}")
+	public void enableUser(@PathVariable("farmEmpId") Long farmEmpId,
+			@AuthenticationPrincipal UserDetails userDetails) {
+		userService.enableUser(farmEmpId, userDetails.getUsername());
 	}
 
 	@GetMapping("/create")

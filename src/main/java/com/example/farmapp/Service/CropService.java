@@ -19,4 +19,6 @@ public interface CropService {
 
     public Optional<Crop> findCropById(Long cropId);
 
+    public void deleteCrop(Long cropId);
+
 }

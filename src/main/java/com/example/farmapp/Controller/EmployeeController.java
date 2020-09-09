@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class EmployeeController {
 
     @PostMapping(value = "/")
     public void addEmployee(@RequestBody EmployeeReqDTO employeeReqDTO) {
-    	
+
         employeeService.createEmployee(employeeReqDTO);
     }
 
@@ -36,8 +37,8 @@ public class EmployeeController {
         return employeeService.getEmployees(farmId);
     }
 
-    @PostMapping(value = "/delete")
-    public void deleteEmployee(@RequestParam("id") Long empId) {
+    @DeleteMapping(value = "/{empId}")
+    public void deleteEmployee(@PathVariable("empId") Long empId) {
         employeeService.deleteEmployee(empId);
     }
 }

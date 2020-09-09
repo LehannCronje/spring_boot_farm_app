@@ -15,4 +15,6 @@ public interface SiteCropService {
 	public Optional<SiteCrop> findSiteCropById(Long siteCropId);
 
 	public Optional<SiteCrop> findByFarmSiteIdAndCropId(Long farmSiteId, Long cropId);
+
+	public void deleteSiteCropByCropIdAndSiteId(Long cropId, Long siteId);
 }

@@ -15,4 +15,8 @@ public interface UserService {
 
 	public Optional<User> findUserByUsername(String username);
 
+	public void deleteUserByUserId(String username, Long userId);
+
+	public void enableUser(Long farmEmpId, String username);
+
 }

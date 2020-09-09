@@ -112,18 +112,9 @@ public class FarmServiceImpl implements FarmService {
 	}
 
 	@Override
-	public void deleteFarm(FarmDomain data) {
+	public void deleteFarm(Long farmId) {
 
-		// User u = userRepo.findById(data.getUid()).get();
-		// List<Farm> farms = u.getFarms();
-
-		// for (int i = 0; i < farms.size(); i++) {
-		// if (farms.get(i).getId() == data.getId()) {
-		// farms.remove(i);
-		// }
-		// }
-		// u.setFarms(farms);
-		// userRepo.save(u);
+		farmRepo.deleteById(farmId);
 
 	}
 

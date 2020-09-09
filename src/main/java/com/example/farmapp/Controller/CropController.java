@@ -8,6 +8,7 @@ import com.example.farmapp.dto.CropResDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,5 +32,10 @@ public class CropController {
     @GetMapping("/{farmId}")
     public List<CropResDTO> getCrops(@PathVariable("farmId") Long farmId) {
         return cropService.getCrops(farmId);
+    }
+
+    @DeleteMapping("/{cropId}")
+    public void deleteCrop(@PathVariable("cropId") Long cropId) {
+        cropService.deleteCrop(cropId);
     }
 }

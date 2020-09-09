@@ -32,9 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.httpBasic().disable().csrf().disable().cors().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/auth/signin").permitAll().antMatchers("/user/bootstrap").permitAll().antMatchers("/**")
-				.hasRole("USER").antMatchers("/farms/test").permitAll().anyRequest().authenticated().and()
-				.apply(new JwtSecurityConfigurer(jwtTokenProvider));
+				.antMatchers("/auth/signin").permitAll().antMatchers("/user/bootstrap").permitAll()
+				.antMatchers("/**").hasRole("USER").antMatchers("/farms/test").permitAll().anyRequest().authenticated()
+				.and().apply(new JwtSecurityConfigurer(jwtTokenProvider));
 
 	}
 
@@ -42,9 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList("http://18.132.131.55:3500", "http://localhost:3500",
-				"http://10.0.0.103:3500", "http://105.226.152.140:3500"));
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT"));
-		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+				"http://10.0.0.103:3500", "http://3.137.105.218"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type",
+				"application/x-www-form-urlencoded", "multipart/form-data"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;

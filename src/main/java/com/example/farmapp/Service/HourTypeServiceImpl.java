@@ -4,7 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import com.example.farmapp.Entity.Employee;
@@ -12,6 +12,7 @@ import com.example.farmapp.Entity.HourType;
 import com.example.farmapp.Repository.HourTypeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,8 +21,8 @@ public class HourTypeServiceImpl implements HourTypeService {
     @Autowired
     private HourTypeRepository hourTypeRepo;
     // day-month
-    String holidays[] = { "01-01", "21-03", "10-04", "13-04", "27-04", "01-05", "16-07", "10-08", "24-11", "16-12",
-            "25-12", "26-12" };
+    @Value("#{'${holidays}'.split(',')}")
+    List<String> holidays;
 
     @Override
     public Optional<HourType> findHourTypeByName(String name) {

@@ -61,4 +61,9 @@ public class SiteCropServiceImpl implements SiteCropService {
 		return siteCropRepo.findByFarmSiteIdAndCropId(farmSiteId, cropId);
 	}
 
+	@Override
+	public void deleteSiteCropByCropIdAndSiteId(Long cropId, Long siteId) {
+		siteCropRepo.delete(this.findByFarmSiteIdAndCropId(siteId, cropId).get());
+	}
+
 }

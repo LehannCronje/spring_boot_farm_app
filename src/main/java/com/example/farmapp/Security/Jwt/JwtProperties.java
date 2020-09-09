@@ -10,9 +10,9 @@ import lombok.Data;
 @Data
 public class JwtProperties {
 	private String secretKey = "secret";
-	
+
 	private long validityInMs = 36000000;
-	
-//	private long validityInMs = 3600;
-	
+
+	// private long validityInMs = 3600;
+
 }

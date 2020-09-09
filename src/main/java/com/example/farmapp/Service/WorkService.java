@@ -15,4 +15,6 @@ public interface WorkService {
 
     public Optional<Work> findWorkById(Long workId);
 
+    public void deleteWork(Long workId);
+
 }

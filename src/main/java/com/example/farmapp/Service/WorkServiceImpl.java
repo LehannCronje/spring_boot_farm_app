@@ -127,4 +127,8 @@ public class WorkServiceImpl implements WorkService {
         return workRepo.findById(workId);
     }
 
+    public void deleteWork(Long workId) {
+        workRepo.deleteById(workId);
+    }
+
 }

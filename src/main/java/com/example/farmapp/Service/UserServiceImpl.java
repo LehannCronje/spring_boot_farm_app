@@ -83,7 +83,6 @@ public class UserServiceImpl implements UserService {
 		User currentUser = userRepo.findByUsername(username).get();
 		UserResDTO userResDTO = new UserResDTO();
 		List<UserResDTO> userResList = new ArrayList<UserResDTO>();
-		System.out.println(currentUser.getSubUsers().toString());
 		for (SubUserRegistry subUserRegistry : currentUser.getSubUsers()) {
 			userResDTO = new UserResDTO();
 			if (subUserRegistry.getUser() != null) {
@@ -106,4 +105,37 @@ public class UserServiceImpl implements UserService {
 		return userRepo.findByUsername(username);
 	}
 
+	@Override
+	public void deleteUserByUserId(String username, Long userId) {
+
+		User user = userRepo.findByUsername(username).get();
+		User subUser = new User();
+
+		for (SubUserRegistry subUserRegistry : user.getSubUsers()) {
+			if (subUserRegistry.getUser().getId().equals(userId)) {
+				subUser = subUserRegistry.getUser();
+				user.deleteSubUser(subUserRegistry);
+				subUserRegistryRepo.delete(subUserRegistry);
+			}
+		}
+
+		userRepo.save(user);
+
+		subUser.setIsActive(null);
+		userRepo.save(subUser);
+	}
+
+	@Override
+	public void enableUser(Long farmEmpId, String username) {
+		FarmEmployee farmEmp = farmEmployeeService.findFarmEmployeeById(farmEmpId).get();
+		User currentUser = userRepo.findByUsername(username).get();
+		User user = farmEmp.getEmployee().getUser();
+		user.setIsActive("ACTIVE");
+		userRepo.save(user);
+
+		SubUserRegistry subUserRegistry = new SubUserRegistry();
+		subUserRegistry.setCreatedByUser(currentUser);
+		subUserRegistry.setUser(user);
+		subUserRegistryRepo.save(subUserRegistry);
+	}
 }

@@ -119,4 +119,8 @@ public class CropServiceImpl implements CropService {
 		return cropRepo.findById(cropId);
 	}
 
+	@Override
+	public void deleteCrop(Long cropId) {
+		cropRepo.deleteById(cropId);
+	}
 }

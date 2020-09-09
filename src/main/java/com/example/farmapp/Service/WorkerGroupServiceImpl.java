@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EntityNotFoundException;
+
 import com.example.farmapp.Entity.Employee;
 import com.example.farmapp.Entity.EmployeeRole;
 import com.example.farmapp.Entity.Farm;
@@ -113,16 +115,22 @@ public class WorkerGroupServiceImpl implements WorkerGroupService {
 				empResDTO = new EmployeeResDTO();
 				empResDTO.setId(workerGroupFarmEmployee.getFarmEmployee().getId());
 				empResDTO.setName(employee.getName());
-				if (employee.getUser() == null) {
-					empResDTO.setHasUser(false);
-				} else {
-					empResDTO.setHasUser(true);
+				try {
+					if (employee.getUser() == null) {
+						empResDTO.setUserActive("false");
+					} else if (employee.getUser().isEnabled()) {
+						empResDTO.setUserActive("true");
+					} else {
+						empResDTO.setUserActive("disabled");
+					}
+				} catch (EntityNotFoundException e) {
+					empResDTO.setUserActive("disabled");
 				}
-				empResDTO.setRole(workerGroupRole.getEmployeeRole().getName());
-				farmEmployees.add(empResDTO);
-			}
-		}
 
+			}
+			empResDTO.setRole(workerGroupRole.getEmployeeRole().getName());
+			farmEmployees.add(empResDTO);
+		}
 		return farmEmployees;
 	}
 
@@ -178,10 +186,16 @@ public class WorkerGroupServiceImpl implements WorkerGroupService {
 					empResDTO = new EmployeeResDTO();
 					empResDTO.setId(workerGroupFarmEmployee.getFarmEmployee().getId());
 					empResDTO.setName(employee.getName());
-					if (employee.getUser() == null) {
-						empResDTO.setHasUser(false);
-					} else {
-						empResDTO.setHasUser(true);
+					try {
+						if (employee.getUser() == null) {
+							empResDTO.setUserActive("false");
+						} else if (employee.getUser().isEnabled()) {
+							empResDTO.setUserActive("true");
+						} else {
+							empResDTO.setUserActive("disabled");
+						}
+					} catch (EntityNotFoundException e) {
+						empResDTO.setUserActive("disabled");
 					}
 					empResDTO.setRole(workerGroupRole.getEmployeeRole().getName());
 					farmEmployees.add(empResDTO);
@@ -190,6 +204,10 @@ public class WorkerGroupServiceImpl implements WorkerGroupService {
 		}
 
 		return farmEmployees;
+	}
+
+	public void deleteWorkerGroupById(Long workerGroupId) {
+		workerGroupRepo.deleteById(workerGroupId);
 	}
 
 }

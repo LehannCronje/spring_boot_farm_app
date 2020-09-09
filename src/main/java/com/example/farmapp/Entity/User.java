@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +31,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class User implements UserDetails {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 7938972579684470148L;
 
 	@Id
 	@GeneratedValue
@@ -53,6 +59,8 @@ public class User implements UserDetails {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Report> reports;
+
+	private String isActive = "ACTIVE";
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -98,8 +106,24 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
+		if (this.isActive == null)
+			return false;
+		if (!this.isActive.equals("ACTIVE"))
+			return false;
+
 		return true;
 	}
 
+	public void deleteSubUser(SubUserRegistry subUser) {
+		this.subUsers.remove(subUser);
+	}
+
+	public void removeEmployee() {
+		this.employee = null;
+	}
+
+	@Override
+	public String toString() {
+		return this.username + " " + this.password;
+	}
 }

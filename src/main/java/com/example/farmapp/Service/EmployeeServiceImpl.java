@@ -81,7 +81,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public void deleteEmployee(Long empId) {
-        employeeRepo.deleteById(empId);
+        FarmEmployee farmEmployee = farmEmployeeService.findFarmEmployeeById(empId).get();
+        employeeRepo.delete(farmEmployee.getEmployee());
     }
 
     public String insertEmployee(Employee employee) {
@@ -92,7 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     // @Override
     // public List<Employee> findEmployeesByFarmId(Long FarmId) {
 
-    //     return ;
+    // return ;
 
     // }
 }

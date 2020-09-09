@@ -23,4 +23,6 @@ public interface WorkerGroupService {
 	public WorkerGroupResDTO findWorkerGroupByFarmEmpId(Long farmEmpId);
 
 	public List<EmployeeResDTO> getEmployeeByWorkerGroupIdFilterByMembers(Long workerGroupId);
+
+	public void deleteWorkerGroupById(Long workerGroupId);
 }

@@ -13,7 +13,7 @@ public interface FarmService {
 
     public Set<Map<String, String>> getAllFarms(String username);
 
-    public void deleteFarm(FarmDomain data);
+    public void deleteFarm(Long farmId);
 
     public Optional<Farm> findFarmById(Long farmId);
 

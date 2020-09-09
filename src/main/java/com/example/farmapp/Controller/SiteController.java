@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,9 +32,9 @@ public class SiteController {
         System.out.println(siteService.createSite(site));
     }
 
-    @PostMapping("/delete")
-    public void delete(@RequestParam("id") Long id) {
-        siteService.deleteSite(id);
+    @DeleteMapping("/{siteId}")
+    public void delete(@PathVariable("siteId") Long siteId) {
+        siteService.deleteSite(siteId);
     }
 
     @GetMapping(value = "/{id}")
@@ -43,13 +44,13 @@ public class SiteController {
 
     @GetMapping(value = "site/{siteId}")
     public Site getSite(@PathVariable Long siteId) {
-    	return siteService.findSiteById(siteId);
+        return siteService.findSiteById(siteId);
     }
-    
+
     @PostMapping(value = "/update")
     public void addCrops(@RequestBody SiteDomain siteData) {
-    	System.out.println("hello");
-    	siteService.addCrops(siteData);
+        System.out.println("hello");
+        siteService.addCrops(siteData);
     }
-        
+
 }

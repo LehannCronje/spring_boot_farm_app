@@ -1,5 +1,6 @@
 package com.example.farmapp.Entity;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,11 +13,16 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@SQLDelete(sql = "UPDATE Employee SET delete_date = CURRENT_TIMESTAMP WHERE id = ?")
+@Where(clause = "delete_date IS NULL")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,6 +39,8 @@ public class Employee {
     private String email;
 
     private int workedHours;
+
+    private Date deleteDate;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")

@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: farm_app
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:farm_data}
+    username: ${MYSQL_USERNAME:lehann}
+    password: ${MYSQL_PASSWORD:lehannCronje1234}
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+holidays: 17-06
+
+
+#  management:
+#    endpoints:
+#      web:
+#        exposure:
+#          include: "*"
+#        cors:
+#          allowed-origins: "*"
+#          allowed-methods: GET,POST
+#        security:
+#          enabled: false
+
+
+#  redis:
+#    host: localhost
+#    post: 6379
+# boot:
+#   admin:
+#     client:
+#       url: http://localhost:8765
+#   jackson:
+#     serialization:
+#       fail-on-empty-beans: false
+# server:
+#   port: 8081
+
+# eureka:
+#   client:
+#     serviceUrl:
+#       defaultZone: http://localhost:8761/eureka/
+#

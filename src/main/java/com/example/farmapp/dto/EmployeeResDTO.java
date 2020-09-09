@@ -6,10 +6,10 @@ import lombok.Data;
 public class EmployeeResDTO {
 
 	private Long id;
-	
+
 	private String name;
-	
-	private boolean hasUser;
-	
+
+	private String userActive;
+
 	private String role;
 }
